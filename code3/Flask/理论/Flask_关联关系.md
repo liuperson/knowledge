@@ -141,3 +141,12 @@ python manage.py db downgrade 执行迁移文件中的降级
 
 python manage.py db --help 帮助文档
 ```
+另外一种方法：
+
+```
+alter table stu add grade_id int;
+修改学生表添加grade_id字段
+alter table grade add foregin key (grade_id) references grade(id);
+修改班级表添加外键grade_id关联到grade.id
+
+```
