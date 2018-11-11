@@ -1,0 +1,39 @@
+1. use mysql;
+
+2. create user 'root'@'%' identified by 'password';
+
+3. grant all privileges on *.* to 'root'@'%' identified by 'password';
+
+4. flush privileges;
+
+虚拟环境
+
+创建文件夹: mkdir env conf logs src
+
+yum install python-virtualenv
+
+virtualenv --no-site-packages -p /usr/local/python3/bin/python3 freshenv
+
+安装环境的库
+
+ /home/env/freshenv/bin/pip3 install -r reqyirement.txt
+
+运行:
+
+ /home/env/freshenv/bin/python3 manage.py runserver 0.0.0.0:80
+
+
+使用nohup
+ 创建启动脚本文件： start_fresh.sh
+
+ /home/env/freshenv/bin/python3 /home/src/fresh_shop/manage.py runserver 0.0.0.0:80
+
+ 给权限: chmod -R 777 start_fresh.sh
+
+ 运行: nohup ./start_fresh.sh
+
+
+启动uwsgi:
+
+ /home/env/freshenv/bin/uwsgi --ini freshuwsgi.ini
+2018/11/9 18:13:06
