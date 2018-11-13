@@ -1,3 +1,4 @@
+
 day01: 
 
 1）flask环境:
@@ -10,11 +11,11 @@ day01:
 
 	from flask import Flask
 	app = Flask(__name__)
-	
+
 	@app.route('/')
 	def hello():
 		return 'hello'
-	
+
 	if __name__ == '__main__':
 		app.run(host，port，debug)
 
@@ -26,20 +27,20 @@ day01:
 	from flask import Flask
 	from flask_script import Manager
 	app = Flask(__name__)
-	
+
 	@app.route('/')
 	def hello():
 		return 'hello'
-	
+
 	manege = Manager(app)
-	
+
 	if __name__ == '__main__':
 		manage.run()
-	
+
 	启动命令: python helLo.py runserver -h IP -p PORT -d
 
 5) 分离出视图层，业务逻辑。从hello.py中分离出路由和视图函数。
-​	
+	
 	使用蓝图管理路由，蓝图的好处就是模块化管理应用
 
 	from flask import Blueprint
@@ -49,7 +50,7 @@ day01:
 	@blue.route('/')
 	def xxx():
 		pass
-	
+
 	# 第二步，注册蓝图
 	app.register_blueprint(blueprint=blue, url_prefix='xxx')
 
@@ -64,13 +65,13 @@ day01:
 	获取上传文件: request.files
 	获取路径: request.path
 	请求方式: request.method
-	
+
 	# 响应response，是后端产生返回给前端（浏览器）
 	make_response(响应内容，响应状态码（默认为200）)
 	响应绑定cookie，set_cookie/delete_cookie
 
 8）异常抛出与捕获
-​	
+	
 	抛出：abort(状态码)
 	捕获: @blue.errorhandler(状态码)
 
