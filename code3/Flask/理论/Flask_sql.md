@@ -76,9 +76,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI']="mysql+pymysql://root:1q2w3e4r5t@localhost:3306/flask6"
 ```
 
-####4.新建数据库
+#### 4.新建数据库
 
-####5.初始化sqlalchemy
+#### 5.初始化sqlalchemy
 
 ```
 第一种：
@@ -116,6 +116,6 @@ def drop_db():
     db.drop_all()
     return '删除模型成功'
 ```
-####7.执行查看数据库
+#### 7.执行查看数据库
 
 
