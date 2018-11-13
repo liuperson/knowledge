@@ -1,4 +1,5 @@
-**内容**
+[TOC]
+#### auth+login_require+middleware
 
 ```
 django封装好的注册登录注销函数
@@ -6,7 +7,7 @@ login_required装饰器
 中间件
 ```
 
-**1.urls**
+##### 1.url
 
 ```
 from django.conf.urls import url
@@ -17,44 +18,17 @@ urlpatterns=[
     url(r'register/',views.register,name='register'),
     # 登录
     url(r'^login/',views.login,name='login'),
-    #
+    # 主页
     url(r'^index/',views.index,name='index'),
     # 注销
     url(r'^logout',views.logout,name='logout'),
 ]
 ```
 
-**2.templates**
+##### 2.templates
 
 ```
-1.定义父模块
-<!DOCTYPE html>
- <html lang="en">
- <head>
-     <meta charset="UTF-8">
-     <title>
-         {% block title %}
-         {% endblock %}
-     </title>
-     {% block extCss %}
-     {% endblock %}
-     
-     {% block extJs %}
-     {% endblock %}
- </head>
- <body>
-     {% block content %}
-     {% endblock %}
- </body>
- </html>
- 
- 2.定义注册模块
- {% extends 'base.html' %}
-
-{% block title %}
-    注册
-{% endblock %}
-
+#注册模块
 {% block content %}
     {{ errors }}
     <form action=""method="post">
@@ -66,23 +40,9 @@ urlpatterns=[
     {% if errors.username %}
         姓名错误：{{ errors.username }}
     {% endif %}
-
-    {% if errors.password %}
-        密码错误：{{ errors.password }}
-    {% endif %}
-
-    {% if errors.password2 %}
-        确认密码错误：{{ errors.password2 }}
-    {% endif %}
 {% endblock %}
 
-3.定义登录模块
-{% extends 'base.html' %}
-
-{% block title %}
-    登录
-{% endblock %}
-
+#登录模块
 {% block content %}
     {{ errors }}
     <form action=""method="post">
@@ -90,30 +50,17 @@ urlpatterns=[
         密码: <input type="text"name="password">
         <input type="submit"value="提交">
     </form>
-    {% if errors.username %}
-        姓名错误：{{ errors.username }}
-    {% endif %}
-
-    {% if errors.password %}
-        密码错误：{{ errors.password }}
-    {% endif %}
 {% endblock %}
 
-4.定义首页
+#首页
 {% extends 'base.html' %}
-
-{% block title %}
-
-{% endblock %}
-
 {% block content %}
    welcome to shouye
     <a href="{% url 'user:logout' %}">注销</a>
 {% endblock %}
-
 ```
 
-**3.views**
+##### 3.注册登录注销
 
 ```
 from django.contrib.auth.decorators import login_required
@@ -138,7 +85,6 @@ def register(request):
             return HttpResponseRedirect(reverse('user:login'))
         else:
             return render(request,'register.html',{'errors':form.errors})
-
 
 def login(request):
     if request.method == 'GET':
@@ -175,10 +121,9 @@ def index(request):
 def logout(request):
     if request.method== 'GET':
         return HttpResponseRedirect(reverse('user:login'))
-
 ```
 
-**4.forms**
+#####4.forms
 
 ```
 from django import forms
@@ -230,13 +175,11 @@ class UserLoginForm(forms.Form):
         if not user:
             raise forms.ValidationError({'username':'该账号没有注册，请去注册'})
         return self.cleaned_data
-
 ```
 
 
 
-
-**1.中间件定义**
+##### 5.middleware
 
 ```
 定义：
@@ -245,13 +188,13 @@ class UserLoginForm(forms.Form):
 	注意：中间件是帮助我们在视图函数执行之前和执行之后做一些额外操作，它本质上就是一个自定义类，类中定义了几个方法，Django框架会在请求的特定的时间去执行这些方法。
 
 思考：
-1.什么是中间件？
-2.在settings.py中有很多的中间件，主要是用来做什么功能的呢？
-3.他们处理请求的url的过程在那些阶段呢？
-4.一般用来做那些数据的处理呢？
+    1.什么是中间件？
+    2.在settings.py中有很多的中间件，主要是用来做什么功能的呢？
+    3.他们处理请求的url的过程在那些阶段呢？
+    4.一般用来做那些数据的处理呢？
 ```
 
-**2.中间件实例**
+
 
 
 ```
@@ -286,31 +229,23 @@ class TestMiddleware2(MiddlewareMixin):
         print('process_response2')
         # 返回响应
         return response
-运行结果：
-process_request1
-process_request2
-process_response2
-process_response1
+    运行结果：
+    process_request1
+    process_request2
+    process_response2
+    process_response1
 ```
-**3.中间件类函数描述**
+
 
 ```
 在项目中，setting.py中可以查到已经定义好的中间件，并加入我们自定义的
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-   
     'utils.middleware.TestMiddlware1',  # 加载中间件TestMiddlware1
     'utils.middleware.TestMiddlware2',  # 加载中间件TestMiddlware2
 ]
 ```
 
-**4.中间件方法**
+
 
 ```
 1. process_request(self, request)
