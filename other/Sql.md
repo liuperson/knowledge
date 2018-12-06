@@ -178,7 +178,11 @@ update tb_student set addr='四川绵阳',gender=0 where id in (1002,1003);
 -- 添加唯一约束
 alter table cl_col add constraint unique_website unique(cl_website);
 
--- 删除索引唯一约束
+-- 增加索引
+create index ix_maoyan_actor on maoyan(actor);
+
+-- 删除索引
 alter table cl_col drop index unique_website;
+
 ```
 
